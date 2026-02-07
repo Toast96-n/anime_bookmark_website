@@ -1,0 +1,430 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+
+            margin: 0px;
+            margin-top: 120px;
+            background-color: black;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            height: 1800px;
+            zoom: -10;
+        }
+
+        .header {
+            display: flex;
+            position: fixed;
+            left: 0;
+            right: 0;
+            top: 0;
+            height: 122px;
+            width: 100%;
+            background-color: 764ba2;
+            z-index: 100;
+        }
+
+        .header div {
+            flex: 1;
+
+        }
+
+        .header div:nth-child(1) {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        .header div:nth-child(2) {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .header div:nth-child(3) {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+        }
+
+
+        .input_field:focus {
+
+            outline: none;
+
+        }
+
+        .input_field {
+
+
+            width: 350px;
+            height: 32px;
+            border-top-left-radius: 20px;
+            border-bottom-left-radius: 20px;
+            background-color: white;
+            box-shadow: none;
+            border: none;
+        }
+
+        .inp_button {
+
+            height: 34px;
+            width: 80px;
+            color: red;
+            border-top-right-radius: 20px;
+            border-bottom-right-radius: 20px;
+            padding-left: 10px;
+            border: none;
+            background-color: white;
+            margin-left: 1px
+        }
+
+        .logo {
+            height: 120px;
+            margin-left: 30px;
+
+        }
+
+        .search_logo {
+            height: 27px;
+            margin-top: 3px;
+            margin-right: 8px;
+        }
+
+        .profile_logo {
+            height: 45px;
+            margin-top: 3px;
+            margin-right: 80px;
+
+        }
+
+        .hamburger {
+            display: flex;
+            background-color: rgb(255, 255, 255);
+            position: absolute;
+            right: 30px;
+            height: 140px;
+            width: 190px;
+            top: 150px;
+            flex-direction: column;
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+            opacity: 0;
+            transition: opacity 0.18s ease-in-out;
+            pointer-events: none;
+            color: black;
+            font-size: 20px;
+            font-weight: bold;
+            font-family: 'Times New Roman', Times, serif;
+
+        }
+
+
+
+
+
+        .hamburger img {
+            height: 29px;
+            margin-left: 9px;
+            padding-right: 20px;
+        }
+
+        .hamburger.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .hamburger div {
+            display: flex;
+            flex: 1;
+            align-items: center;
+            border-top: 2px solid rgb(0, 0, 0);
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+
+
+        }
+
+        .title {
+            color: white;
+            font-size: 25px;
+            margin-left: 60px;
+
+        }
+
+
+        .hamburger div:hover {
+
+            background-color: aliceblue;
+
+
+
+        }
+
+
+        #hamburger_button {
+            background-color: transparent;
+            border: none;
+
+        }
+
+        .top_anime {
+            background-color: 667eea;
+            height: 1270px;
+            width: 340px;
+            margin-left: 70px;
+            margin-top: 80px;
+
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            border-bottom-left-radius: 20px;
+
+            border-bottom-right-radius: 20px;
+        }
+
+        .inner_top_anime_div {
+            background-color: #191818;
+            height: 1200px;
+            width: 250px;
+            margin-left: 40px;
+            margin-top: 30px;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            color: black;
+
+        }
+
+
+        .tit {
+            color: rgb(0, 0, 0);
+            font-size: 25px;
+            position: relative;
+            top: 12px;
+            left: 15px;
+
+
+        }
+
+        .anime {
+
+            height: 90px;
+            width: 240x;
+            margin-left: 30px;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            color: rgb(255, 255, 255);
+            margin-top: 15px;
+
+
+
+        }
+
+        .anime div:nth-child(1) {
+            flex: 1;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+
+        }
+
+        .anime div:nth-child(2) {
+            flex: 1;
+            display: flex;
+            align-items: center;
+
+        }
+
+        .main {
+
+
+
+            height: 100px;
+            width: 100px;
+            display: inline-block;
+            display: grid;
+            grid-template-columns: auto auto auto auto;
+            margin-left: 100px;
+            margin-top: 90px;
+
+
+        }
+
+        .anime_template {
+
+            display: flex;
+            flex-direction: column;
+            height: 400px;
+            width: 200px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <div>
+            <img class="logo" src="/img/1c0d107bc01b4ae2f17095ce6604b577.png">
+            <span CLASS="title">Anime Meta Data Site</span>
+        </div>
+        <div>
+            <input type="text" class="input_field">
+            <button class="inp_button">
+                <img class="search_logo" src="/logo/search-interface-symbol.png">
+            </button>
+        </div>
+        <div>
+            <button id="hamburger_button">
+                <img src="/logo/hamburger.png" class="profile_logo">
+            </button>
+        </div>
+    </div>
+
+    <div class="hamburger">
+        <div><img src="/logo/user.png"> Profile</div>
+        <div><img src="/logo/bookmark.png"> Favourite</div>
+        <div><img src="/logo/settings.png">Setting</div>
+        <div><img src="/logo/logout.png">Logout</div>
+    </div>
+
+
+    <div style="display: flex;">
+
+        <div class="top_anime">
+            <span class="tit">Top Airing</span>
+
+            <div class="inner_top_anime_div">
+                <div class="anime">
+
+                </div>
+            </div>
+
+
+        </div>
+        <div class="main">
+
+
+
+        </div>
+
+    </div>
+
+
+
+
+
+    <script>
+
+        document.getElementById("hamburger_button").addEventListener("click", () => {
+
+            document.querySelector(".hamburger").classList.toggle("active");
+
+
+        });
+
+
+        async function getTopAnime() {
+            try {
+                const response = await fetch("/top_airing");
+                const data = await response.json();
+
+
+
+                const container = document.querySelector('.inner_top_anime_div');
+                container.innerHTML = '';
+
+
+                data.data.forEach(anime => {
+                    const animeDiv = document.createElement('div');
+                    animeDiv.className = 'anime';
+
+                    animeDiv.innerHTML = `
+                    <div>
+                        <img  src="${anime.images.jpg.image_url}" alt="${anime.title}" style="height: 80px; width: 60px; object-fit: cover;">
+                    </div>
+                    <div>
+                        <h4>${anime.title}</h4>
+                        
+                    </div>
+
+
+                    
+                `;
+                    animeDiv.addEventListener("click", () => {
+                        moreinfo(anime.mal_id);
+                    });
+
+                    container.appendChild(animeDiv);
+                });
+
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+
+        getTopAnime();
+
+        function moreinfo(id) {
+
+            window.location.href = `detail.html?id=${id}`;
+        }
+
+
+        async function getanime() {
+            try {
+                const response = await fetch("/get_anime");
+                const data = await response.json();
+
+                const container = document.querySelector('.main');
+                container.innerHTML = '';
+
+ console.log(data);
+
+                data.data.forEach(anime => {
+                    const animeDiv = document.createElement('div');
+                    animeDiv.className = 'anime_template';
+
+                    animeDiv.innerHTML = `
+                <img src="${anime.images.jpg.image_url}" alt="${anime.title}" 
+                     style="height: 200px; width: 150px; object-fit: cover; border-radius: 8px;">
+                <h4 style="color: white; margin-top: 10px;">${anime.title}</h4>
+                <p style="color: #888; font-size: 12px;">⭐ ${anime.score}</p>
+            `;
+
+                    animeDiv.addEventListener('click', () => {
+                        window.location.href = `detail.html?id=${anime.mal_id}`;
+                    });
+
+                    container.appendChild(animeDiv);
+                });
+
+            } catch (error) {
+                console.error('Error fetching anime:', error);
+            }
+        }
+
+        getanime();
+
+
+
+    </script>
+</body>
+
+</html>

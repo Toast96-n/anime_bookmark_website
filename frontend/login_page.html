@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-right: 370px;
+            background-image: url("img/wp9510997-sukuna-desktop-wallpapers.jpg");
+            background-size: cover;
+
+
+
+        }
+
+
+
+        .register {
+            background-color: rgb(228, 228, 228);
+            height: 490px;
+            width: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 20px;
+            padding: 20px;
+
+        }
+
+        form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 50px;
+            padding: 20px;
+
+        }
+
+        .register input:focus {
+            outline: none;
+        }
+
+        .register input {
+            width: 330px;
+            padding: 12px;
+            border-radius: 10px;
+            border-bottom-color: black;
+            border-top: none;
+            border-right: none;
+            border-left: none;
+            border-bottom-width: 2px;
+
+        }
+
+        .register button {
+            width: 100px;
+            width: 330px;
+            height: 30px;
+            border-radius: 18px;
+            background-color: blue;
+            color: white;
+            border: none;
+            transition: background-color 0.25s;
+           
+
+        }
+
+        .register-button:hover {
+
+            background-color: rgb(3, 3, 174);
+          
+        }
+
+        .register-button:focus {
+
+            background-color: rgb(2, 2, 132);
+          
+        }
+
+        .form-title{
+           
+            font-size: 50px;
+        }
+
+        @media (max-width: 480px) {
+            .register {
+                width: 95%;
+                height: auto;
+                min-height: 400px;
+                margin-right: 0;
+                padding: 15px;
+            }
+
+            body {
+                padding: 5px;
+                justify-content: center;
+            }
+
+            .register input button {
+                padding: 10px;
+                font-size: 14px;
+            }
+
+            
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <div class="register">
+         <SPAN class="form-title">Login</SPAN>
+        <form id="register-form">
+            <input type="email"  name="Gmail" placeholder="Gmail">
+            <input type="password" name="password" placeholder="password">
+            <button type="submit" class="register-button">Register</button>
+            <a href="register_page.html" class="login_redirection">havent Register yet? Register</a>
+        </form>
+
+    </div>
+
+
+
+<script>
+
+document.getElementById("register-form").addEventListener("submit",async(e)=>{
+
+    e.preventDefault();
+
+    let formData = new FormData(e.target);
+    let data = Object.fromEntries(formData);
+    
+  if ( !data.Gmail || !data.password) {
+        alert('Please fill all fields');
+        return;
+    }
+
+try{
+
+    let response=await fetch("/login",{
+        method:"post",
+          headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+    });
+
+
+    let result=await response.json();
+
+
+    if(result.redirect){
+
+        window.location.href = result.redirect;
+
+    }else{
+ alert(result.message);
+    }
+   
+
+}catch(error){
+console.error('Error:', error);
+}
+
+
+});
+
+</script>
+
+</body>
+
+</html>
