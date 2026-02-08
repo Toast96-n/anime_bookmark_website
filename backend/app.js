@@ -70,6 +70,9 @@ app.post("/register", async(req, res) => {
 
 app.get("/home", (req, res) => {
 
+     
+    
+
     if(req.session.userid){
         
   res.sendFile(path.join(__dirname , '../frontend/home_page.html'));
@@ -111,6 +114,7 @@ let {Gmail,password}=req.body;
             req.session.userid=result[0].id;
             req.session.name=result[0].username;
             req.session.email=result[0].email;
+ 
 
             return res.json({  
                     message: "Login successful",
@@ -125,7 +129,7 @@ let {Gmail,password}=req.body;
         }   
 
     }else{
-        return response.json({
+        return res.json({
             message:"user doest exist"
         });
     }
@@ -269,6 +273,9 @@ app.delete("/bookmarks/:mal_id", (req, res) => {
         }
     );
 });
+
+
+
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, "../frontend/register_page.html"));
