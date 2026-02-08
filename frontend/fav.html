@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Bookmarks</title>
+    <style>
+        body {
+           
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .anime-card {
+            background: rgba(0, 0, 0);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 15px;
+            color: white;
+            width: 200px;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .anime-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .anime-card h3 {
+            margin: 10px 0;
+            font-size: 16px;
+        }
+
+        .anime-card p {
+            font-size: 14px;
+            color: #ccc;
+        }
+        .btn{
+            position: absolute;
+            top:0;
+            right:0;
+        }
+    </style>
+</head>
+
+<body>
+
+<button onclick="history.back()">Back</button>
+
+    <div class="container"></div>
+
+   <script>
+    function moreinfo(id) {
+        window.location.href = `details.html?id=${id}`;
+    }
+
+   async function remove(event, malId) {
+    event.stopPropagation();  
+    
+    try {
+        const response = await fetch(`/bookmarks/${malId}`, {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" }
+        });
+
+        if (response.ok) {
+           
+            location.reload();
+        } else {
+            alert("Error removing bookmark");
+        }
+    } catch (error) {
+        console.error("Error:", error);
+    }
+}
+
+
+
+    async function fetchanime() {
+        try {
+            const container = document.querySelector(".container");
+
+            const response = await fetch("/bookmarks");
+            const bookmarks = await response.json();
+
+            console.log(bookmarks);
+
+            for (let bookmark of bookmarks) {
+                try {
+                    const animeResponse = await fetch(`https://api.jikan.moe/v4/anime/${bookmark.mal_id}`);
+                    const animeData = await animeResponse.json();
+                    const anime = animeData.data;
+
+                    const card = document.createElement("div");
+                    card.className = "anime-card";
+                  card.innerHTML = `
+    <img src="${anime.images.jpg.image_url}" alt="${anime.title}">
+    <button class="btn" onclick="remove(event, ${anime.mal_id})">remove</button>
+    <h3>${anime.title}</h3>
+`;
+
+                    card.addEventListener("click", () => {
+                        moreinfo(anime.mal_id);
+                    });
+
+
+                    container.appendChild(card);
+
+                } catch (error) {
+                    console.error(`Error fetching anime ${bookmark.mal_id}:`, error);
+                }
+            }
+
+        } catch (error) {
+            console.error("Error fetching bookmarks:", error);
+        }
+    }
+
+    fetchanime();
+</script>
+
+</body>
+
+</html>

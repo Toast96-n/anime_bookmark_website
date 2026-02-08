@@ -107,7 +107,7 @@
         .hamburger {
             display: flex;
             background-color: rgb(255, 255, 255);
-            position: absolute;
+            position: fixed;
             right: 30px;
             height: 140px;
             width: 190px;
@@ -299,23 +299,28 @@
 
         }
 
-      .main {
-    display: grid;
-    grid-template-columns: repeat(4, 180px);
-    margin-left: 100px;
-    margin-top: 10px;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-}
+        .main {
+            display: grid;
+            grid-template-columns: repeat(4, 180px);
+            margin-left: 100px;
+            margin-top: 10px;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+        }
 
         .anime_template {
 
             display: flex;
             flex-direction: column;
-           
-            
+
+
             width: 200px;
+        }
+
+        .menu {
+
+            z-index: 1000;
         }
     </style>
 </head>
@@ -333,7 +338,7 @@
                 <img class="search_logo" src="/logo/search-interface-symbol.png">
             </button>
         </div>
-        <div>
+        <div class="menu">
             <button id="hamburger_button">
                 <img src="/logo/hamburger.png" class="profile_logo">
             </button>
@@ -341,9 +346,19 @@
     </div>
 
     <div class="hamburger">
-        <div><img src="/logo/user.png"> Profile</div>
-        <div><img src="/logo/bookmark.png"> Favourite</div>
-        <div><img src="/logo/logout.png">Logout</div>
+        <div>
+            <a href="profile.html">
+                <img src="/logo/user.png" alt="User">
+                Profile
+            </a>
+        </div>
+        <div>
+            <a href="fav.html"> <img src="/logo/bookmark.png"> Favourite</a>
+
+        </div>
+        <div onclick="logout(); document.querySelector('.hamburger').classList.remove('active');" style="cursor: pointer;">
+    <img src="/logo/logout.png">Logout
+</div>
     </div>
 
 
@@ -390,6 +405,16 @@
 
 
     <script>
+
+        async function logout() {
+            const response = await fetch("/logout");
+            const data = await response.json();
+
+            if (data.success) {
+                window.location.href = "/login_page.html";
+            }
+        }
+
 
         document.getElementById("hamburger_button").addEventListener("click", () => {
 

@@ -1,0 +1,115 @@
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: url("img/17385.jpg");
+            background-size: cover;
+            background-position: right;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            height: 500px;
+            width: 500px;
+            display: flex;
+            flex-direction: column;
+            background: rgba(0, 0, 0,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(255, 254, 254, 0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .cont2 {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            flex: 2;
+        }
+
+        .cont2 input {
+            margin-bottom: 60px;
+        }
+
+        .container input {
+            width: 360px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.8);
+            border: none;
+            border-radius: 5px;
+            padding: 8px;
+        }
+
+        .text {
+            color: rgb(255, 255, 255);
+            font-size: 70px;
+            position: relative;
+            align-self: center;
+            margin-top: 50px;
+
+        }
+
+        .cont2 button {
+            padding: 10px 30px;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .button{
+            position: absolute;
+            top:40px;
+            left:20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <button class="button" onclick="history.back()">Back</button>
+    <div class="container">
+        <h1 class="text">PROFILE</h1>
+
+        <div class="cont2">
+            <input id="uname" type="text" readonly>
+            <input id="email" type="text" readonly>
+            <input id="date" type="text" readonly>
+          
+        </div>
+       
+    </div>
+
+    <script>
+
+
+   async function fetchprofile(){
+
+const response=await fetch("/profile");
+const result=await response.json();
+
+console.log(result);
+
+document.getElementById("uname").value=result.username;
+document.getElementById("email").value=result.email;
+document.getElementById("date").value=result.createdat;
+   }
+   fetchprofile();
+    </script>
+</body>
+
+</html>

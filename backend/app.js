@@ -4,6 +4,7 @@ const path = require("path");
 const mysql=require("mysql2");
 const bcrypt = require("bcrypt");
 const session=require("express-session");
+const { error } = require("console");
 
 app.use(express.static(path.join(__dirname, "../frontend")));
 app.use(express.static(path.join(__dirname, "../frontend/logo")));
@@ -180,9 +181,14 @@ app.get("/get_topani", async(req, res) => {
         res.status(500).json({message: "Error fetching anime"});
     }
 });
-
-
-           
+app.get("/logout", (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            return res.status(500).json({ error: "Failed to logout" });
+        }
+        res.json({ success: true, message: "Logged out" });  
+    });
+}); 
 app.post("/bookmark", (req, res) => {
   const { mal_id } = req.body;
   console.log(mal_id);
@@ -200,9 +206,9 @@ app.post("/bookmark", (req, res) => {
 
 
 app.get("/bookmarks", (req, res) => {
-  const userId = req.user.id;
+  const userId = req.session.userid;
   
-  db.query(
+  connection.query(
     "SELECT mal_id FROM bookmarks WHERE user_id = ?",
     [userId],
     (err, results) => {
@@ -212,9 +218,57 @@ app.get("/bookmarks", (req, res) => {
 });
 
 
+app.get("/profile",(req,res)=>{
 
 
+     if(!req.session.userid) {
+        return res.status(401).json({ message: "Not authenticated" });
+    }
 
+const id=req.session.userid;
+
+connection.query("select username,email,created_at from users where id=?",[id],(error,result)=>{
+
+    if(error){
+        res.json("error opening in profile");
+    }
+
+   if(result.length > 0) {
+    res.json({
+        username: result[0].username,
+        email: result[0].email,
+        createdat: result[0].created_at
+    });
+}else{
+        res.json({
+            message:"profile dosent exist"
+        });
+    }
+});
+
+});
+
+
+app.delete("/bookmarks/:mal_id", (req, res) => {
+    const userId = req.session.userid;
+    const malId = req.params.mal_id;
+
+    if (!userId) {
+        return res.status(401).json({ error: "Not authenticated" });
+    }
+
+    connection.query(
+        "DELETE FROM bookmarks WHERE user_id = ? AND mal_id = ?",
+        [userId, malId],
+        (err, result) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).json({ error: "Failed to delete" });
+            }
+            res.json({ success: true, message: "Bookmark removed" });
+        }
+    );
+});
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, "../frontend/register_page.html"));
