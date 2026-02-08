@@ -334,7 +334,7 @@
         </div>
         <div>
             <input type="text" class="input_field">
-            <button class="inp_button">
+            <button class="inp_button"  onclick="searchAnime()">
                 <img class="search_logo" src="/logo/search-interface-symbol.png">
             </button>
         </div>
@@ -405,8 +405,55 @@
 
 
     <script>
+async function searchAnime() {
+    const searchQuery = document.querySelector(".input_field").value;
+    
+    if(!searchQuery.trim()) {
+        alert("Please enter an anime name");
+        return;
+    }
+    
+    try {
+        const response = await fetch("/search", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ query: searchQuery })
+        });
+        
+        const data = await response.json();
+        const container = document.querySelector('.main');
+        container.innerHTML = '';
+        
+        if(data.data && data.data.length > 0) {
+            data.data.forEach(anime => {
+                const animeDiv = document.createElement('div');
+                animeDiv.className = 'anime_template';
+                
+                const imageUrl = anime.images.jpg.image_url;
+                const title = anime.title;
 
- 
+                animeDiv.innerHTML = `
+                    <img src="${imageUrl}" alt="${title}" 
+                         style="height: 200px; width: 150px; object-fit: cover; border-radius: 8px;">
+                    <h4 style="color: white; margin-top: 10px;">${title}</h4>
+                `;
+
+                animeDiv.addEventListener("click", () => {
+                    console.log("Clicked anime ID:", anime.mal_id);
+                    moreinfo(anime.mal_id);
+                });
+
+                container.appendChild(animeDiv);
+            });
+        } else {
+            container.innerHTML = '<p style="color: white;">No anime found</p>';
+        }
+        
+    } catch (error) {
+        console.error('Error searching:', error);
+    }
+}
+
 
 
 

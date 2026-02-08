@@ -68,6 +68,31 @@ app.post("/register", async(req, res) => {
    
 });
 
+app.post("/search", async(req, res) => {
+    const { query } = req.body;
+    
+
+    console.log("jk");
+    if(!query) {
+        return res.status(400).json({ message: "Search query required" });
+    }
+    
+    try {
+        const response = await fetch(
+            `https://api.jikan.moe/v4/anime?q=${encodeURIComponent(query)}`
+        );
+        
+        const data = await response.json();
+        console.log(data);
+        res.json(data);
+        
+    } catch(error) {
+        console.error(error);
+        res.status(500).json({ message: "Error searching anime" });
+    }
+});
+
+
 app.get("/home", (req, res) => {
 
      
