@@ -150,7 +150,7 @@ const response = await fetch('https://api.jikan.moe/v4/top/anime?filter=airing&l
 
 
 app.get("/get_anime",async(req,res)=>{
-  console.log("hit get anime");
+  
 
 try {
         const response = await fetch(
@@ -168,6 +168,54 @@ try {
 
 });
 
+app.get("/get_topani", async(req, res) => {
+    try {
+        const response = await fetch(
+            'https://api.jikan.moe/v4/top/anime?filter=bypopularity&limit=10'
+        );
+        
+        const data = await response.json();
+        res.json(data);
+    } catch(error) {
+        res.status(500).json({message: "Error fetching anime"});
+    }
+});
+
+
+           
+app.post("/bookmark", (req, res) => {
+  const { mal_id } = req.body;
+  console.log(mal_id);
+  const userId = req.session.userid;
+  
+  connection.query(
+    "INSERT INTO bookmarks (user_id, mal_id) VALUES (?, ?)",
+    [userId, mal_id],
+    (err, result) => {
+      if (err) return res.status(400).json({ error: "Already bookmarked" });
+      res.json({ success: true });
+    }
+  );
+});
+
+
+app.get("/bookmarks", (req, res) => {
+  const userId = req.user.id;
+  
+  db.query(
+    "SELECT mal_id FROM bookmarks WHERE user_id = ?",
+    [userId],
+    (err, results) => {
+      res.json(results);
+    }
+  );
+});
+
+
+
+
+
+
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, "../frontend/register_page.html"));
 });
@@ -175,7 +223,3 @@ app.get('/', (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}`);
 });
-
-
-
-//'https://api.jikan.moe/v4/top/anime?filter=bypopularity&limit=25' 

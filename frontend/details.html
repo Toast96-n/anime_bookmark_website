@@ -1,0 +1,165 @@
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+    <style>
+        body {
+            margin: 0px;
+            margin-top: 120px;
+            background-color: black;
+            color: white;
+
+        }
+
+        .container {
+            height: 700px;
+            width: 100%;
+         
+            display: flex;
+
+        }
+
+        .anime_template {
+
+            height: 500px;
+            width: 200px;
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+        }
+
+        .anime_info {
+            height: 500px;
+            width: 200px;
+            flex: 3;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+
+
+        }
+
+
+.about{
+    margin-left: 30px;
+    font-weight: bold;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+        .anime_image {
+
+            height: 400px;
+            width: 280px
+        }
+
+
+        .additional_info h3{
+
+         margin-top: 20px;
+
+        }
+    </style>
+</head>
+
+<body>
+
+   <button onclick="history.back()">back</button>
+   <button onclick="bookmark()">BOOKMARK</button>
+    <div class="container">
+        <div class="anime_template">
+            <div class="anime">
+
+            </div>
+        </div>
+        <div class="anime_info">
+
+
+        </div>
+
+    </div>
+
+    <Script>
+
+
+
+        const id = new URLSearchParams(window.location.search).get("id");
+        async function fetchanime() {
+
+            const response = await fetch(`https://api.jikan.moe/v4/anime/${1}/full`);
+            const result = await response.json();
+            const anime = result.data;
+            console.log(anime);
+            const imgcontainer = document.querySelector(".anime");
+            const datacontainer = document.querySelector(".anime_info");
+
+
+            imgcontainer.innerHTML = `
+        <img src=${anime.images.jpg.large_image_url} class="anime_image">
+
+`
+
+
+
+
+            datacontainer.innerHTML = `
+<div>
+    
+<h1>${anime.title}</h1>
+
+    </div>
+   <div class="about">
+    <p>${anime.synopsis}</p>
+    </div>
+
+    <div class="additional_info">
+    <h3> Rating : ${anime.score}</h3>
+        <h3> Episode : ${anime.episodes}</h3>
+            <h3> Rating : ${anime.rating}</h3>
+                        <h3> Airing : ${anime.status}</h3>
+                            <h3>Year : ${anime.year}</h4>
+<h3> Genre : ${anime.genres[0].name      },
+${anime.themes[0].name},
+${anime.themes[1].name}</h3>                       
+
+    </div>
+
+
+`
+
+
+
+
+
+        }
+
+
+        fetchanime();
+
+        async function bookmark(){
+ 
+            console.log(id);
+            const response=await fetch("/bookmark",{
+                method:"post",
+                headers: { "Content-Type": "application/json" },
+                body:JSON.stringify({ mal_id: id })
+            });
+         
+  
+  const data = await response.json();
+  console.log(data); 
+        }
+
+
+    </Script>
+
+</body>
+
+</html>

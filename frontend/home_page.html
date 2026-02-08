@@ -210,6 +210,26 @@
         }
 
 
+
+
+        .inner_top {
+
+            background-color: #191818;
+            height: 1200px;
+            width: 250px;
+            margin-left: 40px;
+            margin-top: 30px;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            color: black;
+        }
+
+
         .tit {
             color: rgb(0, 0, 0);
             font-size: 25px;
@@ -236,6 +256,19 @@
 
         }
 
+        .anime2 {
+            height: 90px;
+            width: 240x;
+            margin-left: 30px;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            color: rgb(255, 255, 255);
+            margin-top: 15px;
+
+        }
+
         .anime div:nth-child(1) {
             flex: 1;
             display: flex;
@@ -251,26 +284,37 @@
 
         }
 
-        .main {
-
-
-
-            height: 100px;
-            width: 100px;
-            display: inline-block;
-            display: grid;
-            grid-template-columns: auto auto auto auto;
-            margin-left: 100px;
-            margin-top: 90px;
-
+        .anime2 div:nth-child(1) {
+            flex: 1;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
 
         }
+
+        .anime2 div:nth-child(2) {
+            flex: 1;
+            display: flex;
+            align-items: center;
+
+        }
+
+      .main {
+    display: grid;
+    grid-template-columns: repeat(4, 180px);
+    margin-left: 100px;
+    margin-top: 10px;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
 
         .anime_template {
 
             display: flex;
             flex-direction: column;
-            height: 400px;
+           
+            
             width: 200px;
         }
     </style>
@@ -299,24 +343,40 @@
     <div class="hamburger">
         <div><img src="/logo/user.png"> Profile</div>
         <div><img src="/logo/bookmark.png"> Favourite</div>
-        <div><img src="/logo/settings.png">Setting</div>
         <div><img src="/logo/logout.png">Logout</div>
     </div>
 
 
     <div style="display: flex;">
 
-        <div class="top_anime">
-            <span class="tit">Top Airing</span>
 
-            <div class="inner_top_anime_div">
-                <div class="anime">
+        <div style="display: flex;flex-direction: column;">
+            <div class="top_anime">
+                <span class="tit">Top Airing</span>
 
+                <div class="inner_top_anime_div">
+                    <div class="anime">
+
+                    </div>
                 </div>
+
+
             </div>
+            <div class="top_anime">
+                <span class="tit">Top Rated</span>
+
+                <div class="inner_top">
+                    <div class="anime2">
+
+                    </div>
+                </div>
 
 
+            </div>
         </div>
+
+
+
         <div class="main">
 
 
@@ -383,7 +443,7 @@
 
         function moreinfo(id) {
 
-            window.location.href = `detail.html?id=${id}`;
+            window.location.href = `details.html?id=${id}`;
         }
 
 
@@ -395,7 +455,7 @@
                 const container = document.querySelector('.main');
                 container.innerHTML = '';
 
- console.log(data);
+                console.log(data);
 
                 data.data.forEach(anime => {
                     const animeDiv = document.createElement('div');
@@ -405,11 +465,11 @@
                 <img src="${anime.images.jpg.image_url}" alt="${anime.title}" 
                      style="height: 200px; width: 150px; object-fit: cover; border-radius: 8px;">
                 <h4 style="color: white; margin-top: 10px;">${anime.title}</h4>
-                <p style="color: #888; font-size: 12px;">⭐ ${anime.score}</p>
+               
             `;
 
                     animeDiv.addEventListener('click', () => {
-                        window.location.href = `detail.html?id=${anime.mal_id}`;
+                        window.location.href = `details.html?id=${anime.mal_id}`;
                     });
 
                     container.appendChild(animeDiv);
@@ -422,6 +482,51 @@
 
         getanime();
 
+
+
+
+
+        async function getTopAnimerated() {
+            try {
+                const response = await fetch("/get_topani");
+                const data = await response.json();
+
+
+
+                const container = document.querySelector('.inner_top');
+                container.innerHTML = '';
+
+
+                data.data.forEach(anime => {
+                    const animeDiv = document.createElement('div');
+                    animeDiv.className = 'anime2';
+
+                    animeDiv.innerHTML = `
+                    <div>
+                        <img  src="${anime.images.jpg.image_url}" alt="${anime.title}" style="height: 80px; width: 60px; object-fit: cover;">
+                    </div>
+                    <div>
+                        <h4>${anime.title}</h4>
+                        
+                    </div>
+
+
+                    
+                `;
+                    animeDiv.addEventListener("click", () => {
+                        moreinfo(anime.mal_id);
+                    });
+
+                    container.appendChild(animeDiv);
+                });
+
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+
+        getTopAnimerated();
 
 
     </script>
