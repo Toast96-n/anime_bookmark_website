@@ -1,10 +1,12 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
 const path = require("path");
 const mysql=require("mysql2");
 const bcrypt = require("bcrypt");
 const session=require("express-session");
-const { error } = require("console");
+
+
 
 app.use(express.static(path.join(__dirname, "../frontend")));
 app.use(express.static(path.join(__dirname, "../frontend/logo")));
@@ -20,13 +22,13 @@ app.use(session({
   }
 }));
 
-let PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'Neev2007',
-    database: 'anime'
+    host: process.env.DB_HOST ,
+    user: process.env.DB_USER ,
+    password: process.env.DB_PASSWORD ,
+    database: process.env.DB_NAME
 });
 
 connection.connect();
