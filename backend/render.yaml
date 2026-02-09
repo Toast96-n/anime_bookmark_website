@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: anime_bookmark_website
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: node app.js
+    envVars:
+      - key: DATABASE_URL
+        value: mysql://root:qNkCqaAGQBzHWztpzlxEFNbWMqRnkCRS@mysql.railway.internal:3306/railway
+      - key: PORT
+        value: 3000
